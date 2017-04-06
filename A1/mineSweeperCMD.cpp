@@ -3,6 +3,7 @@
 #include <string>
 #include <math.h>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
@@ -10,10 +11,8 @@ using namespace std;
 
 const int xBoardSize=10; //Read in at program start to determine the size of the x Axis of the board
 const int yBoardSize=10; //Read in at program start to determine the size of the y Axis of the board
-int numBombs; //Number of Bombs on the gameboard not to exceed the totalGridSize
-int xLocation; //array location for the x coordinate
-int yLocation; //array location for the y coordinate
-int totalGridSize; //total size of the grid to ensure that numBombs doesn't exceed totalGridSize
+int numBombs = 5; //Number of Bombs on the gameboard not to exceed the totalGridSize
+int totalGridSize = xBoardSize*yBoardSize; //total size of the grid to ensure that numBombs doesn't exceed totalGridSize
 
 bool lossCon; //boolean to determine lose condition (i.e. hitting a bomb)
 bool winCon; //boolean to determine win condition (i.e. not hitting a bomb)
@@ -24,11 +23,13 @@ class gameBoard{
   public:
   bool bombHere;
   bool bombMarkedByPlayer;
+  bool cellClicked;
 
   //object structure for blank gameBoard
   gameBoard(void){
     bombHere=false;
     bombMarkedByPlayer=false;
+    cellClicked=false;
   }
 };
 
@@ -36,10 +37,6 @@ class gameBoard{
   //method to show the user the gameBoard via command line using recursive loops
 
 void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
-
-  int xLoc;
-  int yLoc;
-
 
   cout << "Game Legend\n";
   cout << "@ = Bomb Here\n";
@@ -51,29 +48,31 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
   cout << "!------MINESWEEPER COMMAND LINE------!\n";
   cout << "\n";
 
-  for (int i = 0; i<yBoardSize; i++){
+  for (int row = 0; row<yBoardSize; row++){
 
     cout << "|";
-    yLoc = i;
-    for (int t = 0; t<xBoardSize; t++){
 
-      if (newGame[yLoc][xLoc].bombHere) {
-        if (winCon==true or lossCon==true){
-          cout << "@_|";
-        }
-        else{
-          cout << "__|";
-        }
-      } else if (newGame[yLoc][xLoc].bombMarkedByPlayer) {
-        cout << "?_|";
-      } else if ((newGame[yLoc][xLoc].bombMarkedByPlayer) && newGame[yLoc][xLoc].bombHere) {
-        cout << "!_|";
+    for (int column = 0; column<xBoardSize; column++){
+
+      if (newGame[row][column].bombHere) {
+      //  if (winCon==true or lossCon==true){
+          cout << "@|";
+      //  }
+      //  else{
+      //    cout << "_|";
+      //  }
+      } else if (newGame[row][column].bombMarkedByPlayer) {
+        cout << "?|";
+      } else if (newGame[row][column].bombMarkedByPlayer && newGame[row][column].bombHere) {
+        cout << "!|";
       }
-        else{
-          cout << "__|";
-        }
-        xLoc = t;
+      else if(newGame[row][column].cellClicked){
+        cout << "*|";
       }
+      else{
+        cout << "_|";
+      }
+    }
       cout << "\n";
     }
   };
@@ -81,11 +80,11 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
 void placeBombsOnBoard(gameBoard newGame[xBoardSize][yBoardSize], int bombs){
 
     for (int i =0; i<bombs; i++){
-      int bombXcoord = rand()%10;
-      int bombYcoord = rand()%10;
+      int bombRowcoord = rand()%10;
+      int bombColumncoord = rand()%10;
 
-      if (newGame[bombXcoord][bombYcoord].bombHere==false){
-        newGame[bombXcoord][bombYcoord].bombHere=true;
+      if (newGame[bombRowcoord][bombColumncoord].bombHere==false){
+        newGame[bombRowcoord][bombColumncoord].bombHere=true;
       }
       else{
         i--;
@@ -94,21 +93,30 @@ void placeBombsOnBoard(gameBoard newGame[xBoardSize][yBoardSize], int bombs){
     }
 }
 
-void setMarker(gameBoard newGame[xBoardSize][yBoardSize], int xLoc, int yLoc){
+void setMarker(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
 
-  newGame[xLoc][yLoc].bombMarkedByPlayer==true;
+  newGame[row][column].bombMarkedByPlayer=true;
 
 };
 
-void click
+void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
+    if (newGame[row][column].bombHere) {
+        winCon=false;
+        lossCon=true;
+        newGame[row][column].cellClicked=true;
+        }
+        else{
+          cout << "Mark Adjacent Cells";
+          newGame[row][column].cellClicked=true;
+        }
+};
 
 int main(){
   lossCon = false;
   winCon = false;
-  numBombs = 5;
-
-  xLocation = 0;
-  yLocation = 0;
+  int selection;
+  int row;
+  int column;
 
   gameBoard newGame[xBoardSize][yBoardSize];
 
@@ -117,8 +125,34 @@ int main(){
   showGameToUser(newGame);
 
   while(winCon == false){
-    cout << "Input x coordinate to check." << endl;
-    cin >> xLocation;
+    cout << "--------------------------------------------\n";
+    cout << "Select 1 to Reveal the Coordinates" << endl;
+    cout << "Select 2 to Mark the Coordinates" << endl;
+    cin >> selection;
+    cout << "--------------------------------------------\n";
 
+    if(selection == 1){
+      cout << "Input Row Number." << endl;
+      cin >> row;
+      cout << "Input Column Number." << endl;
+      cin >> column;
+      cout << "Coordinates to be revealed in row column order (" << row << "," << column << ")\n";
+
+      clickCell(newGame, row, column);
+      showGameToUser(newGame);
+    }
+    else if(selection == 2){
+      cout << "Input Row Number." << endl;
+      cin >> row;
+      cout << "Input Column Number." << endl;
+      cin >> column;
+      cout << "Coordinates to be Marked in row column order (" << row << "," << column << ")\n";
+
+      setMarker(newGame, row, column);
+      showGameToUser(newGame);
+    }
+    else{
+      cout << "Selection out of scope. Try again\n";
+    }
   }
 };
