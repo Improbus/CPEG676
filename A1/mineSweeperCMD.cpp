@@ -54,17 +54,17 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
 
     for (int column = 0; column<xBoardSize; column++){
 
-      if (newGame[row][column].bombHere) {
-      //  if (winCon==true or lossCon==true){
-          cout << "@|";
-      //  }
-      //  else{
-      //    cout << "_|";
-      //  }
+      if (newGame[row][column].bombMarkedByPlayer && newGame[row][column].bombHere) {
+        cout << "!|";
       } else if (newGame[row][column].bombMarkedByPlayer) {
         cout << "?|";
-      } else if (newGame[row][column].bombMarkedByPlayer && newGame[row][column].bombHere) {
-        cout << "!|";
+      } else if (newGame[row][column].bombHere) {
+        //  if (winCon==true or lossCon==true){
+            cout << "@|";
+        //  }
+        //  else{
+        //    cout << "_|";
+        //  }
       }
       else if(newGame[row][column].cellClicked){
         cout << "*|";
@@ -79,7 +79,7 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
 
 void placeBombsOnBoard(gameBoard newGame[xBoardSize][yBoardSize], int bombs){
 
-    for (int i =0; i<bombs; i++){
+    for (int i=0; i<bombs; i++){
       int bombRowcoord = rand()%10;
       int bombColumncoord = rand()%10;
 
@@ -100,6 +100,7 @@ void setMarker(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
 };
 
 void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
+
     if (newGame[row][column].bombHere) {
         winCon=false;
         lossCon=true;
@@ -120,7 +121,7 @@ int main(){
 
   gameBoard newGame[xBoardSize][yBoardSize];
 
-  placeBombsOnBoard(newGame, 5);
+  placeBombsOnBoard(newGame, numBombs);
 
   showGameToUser(newGame);
 
