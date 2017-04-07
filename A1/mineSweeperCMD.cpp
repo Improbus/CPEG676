@@ -67,6 +67,25 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
     }
   };
 
+void showGameOverToUser(gameBoard newGame[xBoardSize][yBoardSize]){
+
+  for (int row = 0; row<yBoardSize; row++){
+
+    cout << "|";
+
+    for (int column = 0; column<xBoardSize; column++){
+
+      if (newGame[row][column].bombHere) {
+            cout << "@|";
+      }
+      else{
+        cout << "*|";
+      }
+    }
+      cout << "\n";
+    }
+};
+
 void placeBombsOnBoard(gameBoard newGame[xBoardSize][yBoardSize], int bombs){
 
     for (int i=0; i<bombs; i++){
@@ -96,7 +115,7 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
         lossCon=true;
         newGame[row][column].cellClicked=true;
         cout << "GAME OVER YOU HIT A BOMB\n";
-        showGameToUser(newGame);
+        showGameOverToUser(newGame);
         }
         else{
           newGame[row][column].cellClicked=true;
