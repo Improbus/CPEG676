@@ -138,6 +138,9 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
         S.E--> South-East   (row+1, col+1)
         S.W--> South-West   (row+1, col-1)
         */
+
+        //need to fix going backwards in array
+        
         int countAdjacentMines =0;
         if (newGame[row-1][column].bombHere==false ){newGame[row-1][column].cellClicked=true;}else{countAdjacentMines++;};
         if (newGame[row+1][column].bombHere==false ){newGame[row+1][column].cellClicked=true;}else{countAdjacentMines++;};
