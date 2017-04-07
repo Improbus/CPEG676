@@ -38,16 +38,6 @@ class gameBoard{
 
 void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
 
-  cout << "Game Legend\n";
-  cout << "@ = Bomb Here\n";
-  cout << "? = Maybe Bomb Here Marked By Player\n";
-  cout << "! = Bomb Here Correctly Marked By Player\n";
-  cout << "|___| = Blank Space\n";
-  cout << "--------------------------------------\n";
-  cout << "\n";
-  cout << "!------MINESWEEPER COMMAND LINE------!\n";
-  cout << "\n";
-
   for (int row = 0; row<yBoardSize; row++){
 
     cout << "|";
@@ -59,12 +49,12 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
       } else if (newGame[row][column].bombMarkedByPlayer) {
         cout << "?|";
       } else if (newGame[row][column].bombHere) {
-        //  if (winCon==true or lossCon==true){
+          if (winCon==true or lossCon==true){
             cout << "@|";
-        //  }
-        //  else{
-        //    cout << "_|";
-        //  }
+          }
+          else{
+            cout << "_|";
+          }
       }
       else if(newGame[row][column].cellClicked){
         cout << "*|";
@@ -105,11 +95,12 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
         winCon=false;
         lossCon=true;
         newGame[row][column].cellClicked=true;
-        cout << "GAME OVER YOU HIT A BOMB";
+        cout << "GAME OVER YOU HIT A BOMB\n";
+        showGameToUser(newGame);
         }
         else{
-          cout << "Mark Adjacent Cells";
           newGame[row][column].cellClicked=true;
+          cout << "Mark Adjacent Cells\n"; //Need to add cascade logic and marking for cells here
         }
 };
 
@@ -119,6 +110,18 @@ int main(){
   int selection;
   int row;
   int column;
+
+  cout << "!------MINESWEEPER COMMAND LINE------!\n";
+  cout << "\n";
+  cout << "--------------------------------------\n";
+  cout << "Game Legend\n";
+  cout << "@ = Bomb Here\n";
+  cout << "? = Maybe Bomb Here Marked By Player\n";
+  cout << "! = Bomb Here Correctly Marked By Player\n";
+  cout << "|___| = Blank Space\n";
+  cout << "--------------------------------------\n";
+  cout << "\n";
+
 
   gameBoard newGame[xBoardSize][yBoardSize];
 
