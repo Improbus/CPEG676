@@ -105,6 +105,7 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
         winCon=false;
         lossCon=true;
         newGame[row][column].cellClicked=true;
+        cout << "GAME OVER YOU HIT A BOMB";
         }
         else{
           cout << "Mark Adjacent Cells";
@@ -123,9 +124,10 @@ int main(){
 
   placeBombsOnBoard(newGame, numBombs);
 
-  showGameToUser(newGame);
 
-  while(winCon == false){
+
+  while(lossCon == false){
+    showGameToUser(newGame);
     cout << "--------------------------------------------\n";
     cout << "Select 1 to Reveal the Coordinates" << endl;
     cout << "Select 2 to Mark the Coordinates" << endl;
@@ -140,9 +142,9 @@ int main(){
       cout << "Coordinates to be revealed in row column order (" << row << "," << column << ")\n";
 
       clickCell(newGame, row, column);
-      showGameToUser(newGame);
     }
     else if(selection == 2){
+      showGameToUser(newGame);
       cout << "Input Row Number." << endl;
       cin >> row;
       cout << "Input Column Number." << endl;
@@ -150,7 +152,6 @@ int main(){
       cout << "Coordinates to be Marked in row column order (" << row << "," << column << ")\n";
 
       setMarker(newGame, row, column);
-      showGameToUser(newGame);
     }
     else{
       cout << "Selection out of scope. Try again\n";
