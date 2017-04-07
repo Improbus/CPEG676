@@ -24,12 +24,14 @@ class gameBoard{
   bool bombHere;
   bool bombMarkedByPlayer;
   bool cellClicked;
+  int adjacentMines;
 
   //object structure for blank gameBoard
   gameBoard(void){
     bombHere=false;
     bombMarkedByPlayer=false;
     cellClicked=false;
+    adjacentMines=0;
   }
 };
 
@@ -55,6 +57,9 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
           else{
             cout << "_|";
           }
+      }
+      else if(newGame[row][column].cellClicked && newGame[row][column].adjacentMines>0 ){
+        cout << newGame[row][column].adjacentMines << "|";
       }
       else if(newGame[row][column].cellClicked){
         cout << "*|";
@@ -120,6 +125,29 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
         else{
           newGame[row][column].cellClicked=true;
           cout << "Mark Adjacent Cells\n"; //Need to add cascade logic and marking for cells here
+          /*
+          Count all the mines in the 8 adjacent cells
+          Cell-->Current Cell (row, col)
+          N -->  North        (row-1, col)
+          S -->  South        (row+1, col)
+          E -->  East         (row, col+1)
+          W -->  West         (row, col-1)
+          N.E--> North-East   (row-1, col+1)
+          N.W--> North-West   (row-1, col-1)
+          S.E--> South-East   (row+1, col+1)
+          S.W--> South-West   (row+1, col-1)
+          */
+          int countAdjacentMines =0;
+          if (newGame[row-1][column].bombHere==false ){newGame[row-1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column].bombHere==false ){newGame[row+1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column+1].bombHere==false ){newGame[row][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column-1].bombHere==false ){newGame[row][column-1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column+1].bombHere==false ){newGame[row-1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column-1].bombHere==false ){newGame[row-1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column+1].bombHere==false ){newGame[row+1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column-1].bombHere==false ){newGame[row+1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+
+          if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
         }
 };
 
