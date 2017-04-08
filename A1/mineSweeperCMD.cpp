@@ -155,6 +155,18 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
       }
 };
 
+void checkWin(gameBoard newGame[xBoardSize][yBoardSize]){
+  for(int y=0; y<yBoardSize; y++){
+
+    for(int x=0; x<xBoardSize; x++){
+      if(newGame[xBoardSize][yBoardSize].cellClicked && !newGame[xBoardSize][yBoardSize].bombHere){
+        winCon=true;
+      }
+    }
+
+  }
+};
+
 int main(){
   lossCon = false;
   winCon = false;
