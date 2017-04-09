@@ -119,8 +119,12 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
         winCon=false;
         lossCon=true;
         newGame[row][column].cellClicked=true;
-        cout << "GAME OVER YOU HIT A BOMB\n";
+
         showGameOverToUser(newGame);
+
+        cout << "GAME OVER YOU HIT A BOMB\n";
+        cout << "RESTART PROGRAM TO TRY AGAIN\n";
+        cout << endl;
         }
     else{
       if(newGame[row][column].bombMarkedByPlayer==true){newGame[row][column].bombMarkedByPlayer=false;};
@@ -274,6 +278,7 @@ int main(){
       cout << "Coordinates to be revealed in row column order (" << row << "," << column << ")\n";
 
       clickCell(newGame, row, column);
+      checkWin(newGame);
     }
     else if(selection == 2){
       showGameToUser(newGame);
@@ -284,6 +289,7 @@ int main(){
       cout << "Coordinates to be Marked in row column order (" << row << "," << column << ")\n";
 
       setMarker(newGame, row, column);
+      checkWin(newGame);
     }
     else{
       cout << "Selection out of scope. Try again\n";
