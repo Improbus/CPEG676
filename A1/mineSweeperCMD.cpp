@@ -51,12 +51,12 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
       } else if (newGame[row][column].bombMarkedByPlayer) {
         cout << "?|";
       } else if (newGame[row][column].bombHere) {
-      //    if (winCon==true or lossCon==true){
+          if (winCon==true or lossCon==true){
             cout << "@|";
-        //  }
-          //else{
-            //cout << "_|";
-          //}
+          }
+          else{
+            cout << "_|";
+          }
       }
       else if(newGame[row][column].cellClicked && newGame[row][column].adjacentMines>0 ){
         cout << newGame[row][column].adjacentMines << "|";
@@ -139,19 +139,85 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
         S.W--> South-West   (row+1, col-1)
         */
 
-        //need to fix going backwards in array
-
         int countAdjacentMines =0;
-        if (newGame[row-1][column].bombHere==false ){newGame[row-1][column].cellClicked=true;}else{countAdjacentMines++;};
-        if (newGame[row+1][column].bombHere==false ){newGame[row+1][column].cellClicked=true;}else{countAdjacentMines++;};
-        if (newGame[row][column+1].bombHere==false ){newGame[row][column+1].cellClicked=true;}else{countAdjacentMines++;};
-        if (newGame[row][column-1].bombHere==false ){newGame[row][column-1].cellClicked=true;}else{countAdjacentMines++;};
-        if (newGame[row-1][column+1].bombHere==false ){newGame[row-1][column+1].cellClicked=true;}else{countAdjacentMines++;};
-        if (newGame[row-1][column-1].bombHere==false ){newGame[row-1][column-1].cellClicked=true;}else{countAdjacentMines++;};
-        if (newGame[row+1][column+1].bombHere==false ){newGame[row+1][column+1].cellClicked=true;}else{countAdjacentMines++;};
-        if (newGame[row+1][column-1].bombHere==false ){newGame[row+1][column-1].cellClicked=true;}else{countAdjacentMines++;};
 
-        if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        if(row==0 && column==0){
+          if (newGame[row+1][column].bombHere==false ){newGame[row+1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column+1].bombHere==false ){newGame[row][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column+1].bombHere==false ){newGame[row+1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+
+          if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        }
+        else if(row==xBoardSize-1 && column==yBoardSize-1){
+          if (newGame[row-1][column].bombHere==false ){newGame[row-1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column-1].bombHere==false ){newGame[row][column-1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column-1].bombHere==false ){newGame[row-1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+
+          if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        }
+        else if(row==0 && column==yBoardSize-1){
+          if (newGame[row+1][column].bombHere==false ){newGame[row+1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column-1].bombHere==false ){newGame[row][column-1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column-1].bombHere==false ){newGame[row+1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+
+          if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        }
+        else if(column==0 && row==xBoardSize-1){
+          if (newGame[row][column+1].bombHere==false ){newGame[row][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column].bombHere==false ){newGame[row-1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column+1].bombHere==false ){newGame[row-1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+
+          if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        }
+        else if(row==0 && column!=0){
+            if (newGame[row+1][column].bombHere==false ){newGame[row+1][column].cellClicked=true;}else{countAdjacentMines++;};
+            if (newGame[row][column+1].bombHere==false ){newGame[row][column+1].cellClicked=true;}else{countAdjacentMines++;};
+            if (newGame[row][column-1].bombHere==false ){newGame[row][column-1].cellClicked=true;}else{countAdjacentMines++;};
+            if (newGame[row+1][column+1].bombHere==false ){newGame[row+1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+            if (newGame[row+1][column-1].bombHere==false ){newGame[row+1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+
+            if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        }
+        else if(column==0 && row!=0){
+          if (newGame[row-1][column].bombHere==false ){newGame[row-1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column].bombHere==false ){newGame[row+1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column+1].bombHere==false ){newGame[row][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column+1].bombHere==false ){newGame[row-1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column+1].bombHere==false ){newGame[row+1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+
+          if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        }
+        else if(row==xBoardSize-1 && column!=yBoardSize-1){
+          if (newGame[row-1][column].bombHere==false ){newGame[row-1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column+1].bombHere==false ){newGame[row][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column-1].bombHere==false ){newGame[row][column-1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column+1].bombHere==false ){newGame[row-1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column-1].bombHere==false ){newGame[row-1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+
+          if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        }
+        else if(column==yBoardSize-1 && row!=xBoardSize-1){
+          if (newGame[row-1][column].bombHere==false ){newGame[row-1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column].bombHere==false ){newGame[row+1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column-1].bombHere==false ){newGame[row][column-1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column-1].bombHere==false ){newGame[row-1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column-1].bombHere==false ){newGame[row+1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+
+          if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        }
+        else{
+          if (newGame[row-1][column].bombHere==false ){newGame[row-1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column].bombHere==false ){newGame[row+1][column].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column+1].bombHere==false ){newGame[row][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row][column-1].bombHere==false ){newGame[row][column-1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column+1].bombHere==false ){newGame[row-1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row-1][column-1].bombHere==false ){newGame[row-1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column+1].bombHere==false ){newGame[row+1][column+1].cellClicked=true;}else{countAdjacentMines++;};
+          if (newGame[row+1][column-1].bombHere==false ){newGame[row+1][column-1].cellClicked=true;}else{countAdjacentMines++;};
+
+          if(countAdjacentMines>0){newGame[row][column].adjacentMines=countAdjacentMines;};
+        }
+
       }
 };
 
