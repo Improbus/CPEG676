@@ -52,12 +52,12 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
       } else if (newGame[row][column].bombMarkedByPlayer) {
         cout << "?|";
       } else if (newGame[row][column].bombHere) {
-          if (winCon==true or lossCon==true){
+      //    if (winCon==true or lossCon==true){
             cout << "@|";
-          }
-          else{
-            cout << "_|";
-          }
+      //    }
+      //    else{
+      //      cout << "_|";
+      //    }
       }
       else if(newGame[row][column].cellClicked && newGame[row][column].adjacentMines>0 ){
         cout << newGame[row][column].adjacentMines << "|";
@@ -239,6 +239,7 @@ void checkWin(gameBoard newGame[xBoardSize][yBoardSize]){
     }
     if(winTotal==countToWin){
       winCon=true;
+      cout << "YOU WIN!" << endl;
     }
   }
 };
@@ -264,13 +265,19 @@ int main(){
   cout << "Please Enter the Number of Bombs for your game: \n";
   cin >> numBombs;
 
+  while(numBombs>=totalGridSize){
+    cout << "Please Enter the Number of Bombs for your game less than the max grid size of " << totalGridSize << ": \n";
+    cin >> numBombs;
+
+  }
+
   gameBoard newGame[xBoardSize][yBoardSize];
 
   placeBombsOnBoard(newGame, numBombs);
 
 
 
-  while(lossCon == false){
+  while(lossCon == false&&winCon==false){
     showGameToUser(newGame);
     cout << "--------------------------------------------\n";
     cout << "Select 1 to Reveal the Coordinates" << endl;
