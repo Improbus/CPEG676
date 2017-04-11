@@ -4,6 +4,7 @@
 #include <math.h>
 #include <vector>
 #include <cstdlib>
+#include <time.h>
 
 using namespace std;
 
@@ -11,7 +12,7 @@ using namespace std;
 
 const int xBoardSize=10; //Read in at program start to determine the size of the x Axis of the board
 const int yBoardSize=10; //Read in at program start to determine the size of the y Axis of the board
-int numBombs = 5; //Number of Bombs on the gameboard not to exceed the totalGridSize
+int numBombs; //Number of Bombs on the gameboard not to exceed the totalGridSize
 int totalGridSize = xBoardSize*yBoardSize; //total size of the grid to ensure that numBombs doesn't exceed totalGridSize
 
 bool lossCon; //boolean to determine lose condition (i.e. hitting a bomb)
@@ -94,6 +95,7 @@ void showGameOverToUser(gameBoard newGame[xBoardSize][yBoardSize]){
 void placeBombsOnBoard(gameBoard newGame[xBoardSize][yBoardSize], int bombs){
 
     for (int i=0; i<bombs; i++){
+      srand(time(NULL));
       int bombRowcoord = rand()%10;
       int bombColumncoord = rand()%10;
 
@@ -226,14 +228,18 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
 };
 
 void checkWin(gameBoard newGame[xBoardSize][yBoardSize]){
-  for(int y=0; y<yBoardSize; y++){
+  int winTotal = totalGridSize - numBombs;
+  int countToWin;
 
+  for(int y=0; y<yBoardSize; y++){
     for(int x=0; x<xBoardSize; x++){
       if(newGame[xBoardSize][yBoardSize].cellClicked && !newGame[xBoardSize][yBoardSize].bombHere){
-        winCon=true;
+        countToWin++;
       }
     }
-
+    if(winTotal==countToWin){
+      winCon=true;
+    }
   }
 };
 
@@ -255,6 +261,8 @@ int main(){
   cout << "--------------------------------------\n";
   cout << "\n";
 
+  cout << "Please Enter the Number of Bombs for your game: \n";
+  cin >> numBombs;
 
   gameBoard newGame[xBoardSize][yBoardSize];
 
