@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <math.h>
-#include <vector>
 #include <cstdlib>
 #include <time.h>
 
@@ -40,10 +39,14 @@ class gameBoard{
   //method to show the user the gameBoard via command line using recursive loops
 
 void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
-
+  cout << "  ";
+  for (int column = 0; column<xBoardSize; column++){
+    cout << column << "|";
+  }
+  cout << endl;
   for (int row = 0; row<yBoardSize; row++){
 
-    cout << "|";
+    cout << row << "|";
 
     for (int column = 0; column<xBoardSize; column++){
 
@@ -280,8 +283,8 @@ int main(){
   while(lossCon == false&&winCon==false){
     showGameToUser(newGame);
     cout << "--------------------------------------------\n";
-    cout << "Select 1 to Reveal the Coordinates" << endl;
-    cout << "Select 2 to Mark the Coordinates" << endl;
+    cout << "Select 1 to Reveal Coordinates" << endl;
+    cout << "Select 2 to Mark Coordinates" << endl;
     cin >> selection;
     cout << "--------------------------------------------\n";
 
