@@ -52,12 +52,12 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
       } else if (newGame[row][column].bombMarkedByPlayer) {
         cout << "?|";
       } else if (newGame[row][column].bombHere) {
-      //    if (winCon==true or lossCon==true){
+          if (winCon==true or lossCon==true){
             cout << "@|";
-      //    }
-      //    else{
-      //      cout << "_|";
-      //    }
+          }
+          else{
+            cout << "_|";
+          }
       }
       else if(newGame[row][column].cellClicked && newGame[row][column].adjacentMines>0 ){
         cout << newGame[row][column].adjacentMines << "|";
