@@ -9,8 +9,8 @@ using namespace std;
 
 //Variables below used for the overall game and can be read in at program start to define how many bombs are in the game and how large the game board is
 
-const int xBoardSize=10; //Read in at program start to determine the size of the x Axis of the board
-const int yBoardSize=10; //Read in at program start to determine the size of the y Axis of the board
+const int xBoardSize=5; //Read in at program start to determine the size of the x Axis of the board
+const int yBoardSize=5; //Read in at program start to determine the size of the y Axis of the board
 int numBombs; //Number of Bombs on the gameboard not to exceed the totalGridSize
 int totalGridSize = xBoardSize*yBoardSize; //total size of the grid to ensure that numBombs doesn't exceed totalGridSize
 
@@ -118,8 +118,8 @@ void placeBombsOnBoard(gameBoard newGame[xBoardSize][yBoardSize], int bombs){
 
     for (int i=0; i<bombs; i++){
       srand(time(NULL));
-      int bombRowcoord = rand()%10;
-      int bombColumncoord = rand()%10;
+      int bombRowcoord = rand()%xBoardSize;
+      int bombColumncoord = rand()%yBoardSize;
 
       if (newGame[bombRowcoord][bombColumncoord].bombHere==false){
         newGame[bombRowcoord][bombColumncoord].bombHere=true;
