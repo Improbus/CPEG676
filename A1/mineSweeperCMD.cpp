@@ -134,7 +134,8 @@ void clickCell(gameBoard newGame[xBoardSize][yBoardSize], int row, int column){
     else{
       if(newGame[row][column].bombMarkedByPlayer==true){newGame[row][column].bombMarkedByPlayer=false;};
       newGame[row][column].cellClicked=true;
-      cout << "Mark Adjacent Cells\n"; //Need to add cascade logic and marking for cells here
+      //cout << "Mark Adjacent Cells\n"; //Need to add cascade logic and marking for cells here
+      cout << endl;
         /*
         Count all the mines in the 8 adjacent cells
         Cell-->Current Cell (row, col)
