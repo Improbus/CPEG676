@@ -9,8 +9,8 @@ using namespace std;
 
 //Variables below used for the overall game and can be read in at program start to define how many bombs are in the game and how large the game board is
 
-const int xBoardSize=4; //Read in at program start to determine the size of the x Axis of the board
-const int yBoardSize=4; //Read in at program start to determine the size of the y Axis of the board
+const int xBoardSize=10; //Read in at program start to determine the size of the x Axis of the board
+const int yBoardSize=10; //Read in at program start to determine the size of the y Axis of the board
 int numBombs; //Number of Bombs on the gameboard not to exceed the totalGridSize
 int totalGridSize = xBoardSize*yBoardSize; //total size of the grid to ensure that numBombs doesn't exceed totalGridSize
 
@@ -77,6 +77,25 @@ void showGameToUser(gameBoard newGame[xBoardSize][yBoardSize]){
   };
 
 void showGameOverToUser(gameBoard newGame[xBoardSize][yBoardSize]){
+
+  for (int row = 0; row<yBoardSize; row++){
+
+    cout << "|";
+
+    for (int column = 0; column<xBoardSize; column++){
+
+      if (newGame[row][column].bombHere) {
+            cout << "@|";
+      }
+      else{
+        cout << "*|";
+      }
+    }
+      cout << "\n";
+    }
+};
+
+void showGameWinToUser(gameBoard newGame[xBoardSize][yBoardSize]){
 
   for (int row = 0; row<yBoardSize; row++){
 
@@ -235,19 +254,20 @@ void checkWin(gameBoard newGame[xBoardSize][yBoardSize]){
   int winTotal = totalGridSize - numBombs;
   int countToWin = 0;
 
-  cout << "Win Total is: " << winTotal << endl;
-  cout << "Count to Win: " << countToWin << endl;
+//  cout << "Win Total is: " << winTotal << endl;
+//  cout << "Count to Win: " << countToWin << endl;
 
   for(int y=0; y<yBoardSize; y++){
     for(int x=0; x<xBoardSize; x++){
       if(newGame[y][x].cellClicked==true && newGame[y][x].bombHere==false){
         countToWin++;
-        cout << "Count to Win Update: " << countToWin << endl;
+        //cout << "Count to Win Update: " << countToWin << endl;
       }
     }
     if(winTotal==countToWin){
       winCon=true;
       cout << "YOU WIN!" << endl;
+      showGameWinToUser(newGame);
     }
   }
 };
