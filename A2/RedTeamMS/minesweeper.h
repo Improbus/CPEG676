@@ -8,7 +8,7 @@
 
 void addBomb(std::vector< std::vector<cell> >* board, int width, int height, int numbombs) {
     srand(time(NULL));
-    
+
     // for the amount of given bombs, randomly generate a location to place it
     for (int i = 0; i < numbombs; i++) {
         int bomb_x = 0, bomb_y = 0;
@@ -41,15 +41,15 @@ void updateBoard(std::vector< std::vector<cell> >* board, int width, int height)
 	    // labels the y axis
 	    if (y < 10) std::cout << y << " |";
 		else std::cout << y << "|";
-		    
+
 		for (int x = 0; x < width ; x++){
 		    // displays a !! if you hit a bomb
-		    if(board->at(x).at(y).get_is_bomb() && board->at(x).at(y).get_is_marked()) {
-		        std::cout << "!!|";
-		    }
-		    
+		  //  if(board->at(x).at(y).get_is_bomb() && board->at(x).at(y).get_is_marked()) {
+		//        std::cout << "!!|";
+		 //   }
+
 		    // could be useful for testing purposes, if using this comment out the above if statement
-		    /* 
+
 			if(board->at(x).at(y).get_is_bomb()){
 				if(board->at(x).at(y).get_is_marked()){
 				    std::cout << "!!|";
@@ -58,7 +58,7 @@ void updateBoard(std::vector< std::vector<cell> >* board, int width, int height)
 				    std::cout << "bb|";
 				}
 			}
-			*/
+			
 			// if the cell is marked...
 			else if (board->at(x).at(y).get_is_marked()){
 			    // and the cell has a flag of a number higher than 0, display the number
@@ -71,7 +71,7 @@ void updateBoard(std::vector< std::vector<cell> >* board, int width, int height)
 			}
 			else{ // otherwise display the default __
 				std::cout << "__|";
-			}			
+			}
 		}
 		std::cout << std::endl;
 	}
@@ -86,7 +86,7 @@ bool is_in_range(int x, int y, int w, int h) {
     return (x >= 0) && (x < w) && (y >= 0) && (y < h);
 }
 
-/** 
+/**
  * checks to see if the cell at the given x and y location has any adjacent bombs
  * takes in the board, the x position, and the y position
  * returns true if there is even one adjacent bomb, else return false
@@ -97,7 +97,7 @@ bool checkadjbomb(std::vector<std::vector<cell> > board, int x, int y) {
         for(int j = -1; j <= 1; j++) {
             // first makes sure the cell is valid in the bounds of the board
             // then checks if the cell is a bomb
-            if(is_in_range(x, y, board.size(), board.at(0).size()) 
+            if(is_in_range(x, y, board.size(), board.at(0).size())
                 && board.at(x+i).at(y+i).get_is_bomb()) {
                 // if it is a bomb, cool you found an adjacent bomb
                 return true;
@@ -139,7 +139,7 @@ void set_tile_num(std::vector< std::vector<cell> > *board, int x, int y, int wid
             if(is_in_range(x+i, y+j, width, height) && board->at(x+i).at(y+j).get_is_bomb()) count++;
         }
     }
-    
+
     // sets the cell's flag to the character '0' plus the number of adjacent bombs
     // since the max number for this is 8 there is no need to worry about if the number was more than 9
     board->at(x).at(y).set_flag('0'+count);
@@ -159,29 +159,29 @@ bool select_cell(std::vector< std::vector<cell> > *board, int x, int y) {
     if(x < 0 || y < 0 || x >= w || y >= h) return false;
     // if the selected tile is already marked as selected you do nothing
     if(board->at(x).at(y).get_is_marked()) return false;
-    
+
     // set the selected cell to be marked
     board->at(x).at(y).set_marked(true);
-    
+
     // if a bomb is selected, return true; this means you lose
-    if(board->at(x).at(y).get_is_bomb()) return true; 
-    
+    if(board->at(x).at(y).get_is_bomb()) return true;
+
     // calls the set tile number function, it will set the tiles number of bombs adjacent
     // if this is 0 then it means the tile has no bombs near it
     set_tile_num(board, x, y, w, h);
-    
+
     // if the tile has any adjacent bombs, then it is a dead end and you exit the function
     if(board->at(x).at(y).get_flag() > '0') {
         return false;
     }
-    
+
     // recursively calls itself on all of the cells surrounded the selected tile
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
             select_cell(board, x+i, y+j);
         }
     }
-    
+
     // if you made it this far in the function, congradulations, you didn't lose
     return false;
 }
@@ -196,32 +196,32 @@ std::vector< std::vector<cell> > make_board(int* w, int* h) {
     int n;
     std::cout << "Enter the width (between 1-20): ";
     std::cin >> *w;
-    
+
     while(*w > 20 || *w < 1) {
         std::cout << "Out of range, try again" << std::endl;
         std::cin >> *w;
     }
-    
+
     std::cout << "Enter the height (between 1-20): ";
     std::cin >> *h;
-    
+
     while(*h > 20 || *h < 1) {
         std::cout << "Out of range, try again" << std::endl;
         std::cin >> *h;
     }
-    
+
     int max = (*h) * (*w) - 1;
-    
+
     std::cout << "Enter the number of bombs (between 1-" << max << "): ";
     std::cin >> n;
     while(n > ((*h) * (*w)) || n < 1) {
         std::cout << "Out of range, try again" << std::endl;
         std::cin >> n;
-    } 
+    }
     std::vector< std::vector<cell> > board;
     board.resize(*w, std::vector<cell>(*h,cell()));
     addBomb(&board, *w, *h, n);
-    
+
     return board;
 }
 
@@ -232,10 +232,10 @@ std::vector< std::vector<cell> > make_board(int* w, int* h) {
 void play(std::vector< std::vector<cell> > board, int width, int height) {
     int x, y;
     bool lose = false;
-    
+
     // draw the board
     updateBoard(&board, width, height);
-    
+
     // while you're not a LOSER, play the game
     while(!lose) {
         std::cout << "Test location at: Enter Column (0-height)";
@@ -250,15 +250,15 @@ void play(std::vector< std::vector<cell> > board, int width, int height) {
             std::cout << "invalid, try again" << std::endl;
             std::cin >> y;
         }
-        
+
         // does all the magic of selecting a location in a seperate function
         lose = select_cell(&board, x, y);
-        
+
         // draw the board again fam
         updateBoard(&board,height,width);
         // if you win, determined by another function, then yay cool
         if(is_win(board)) {
-            std::cout << std::endl << 
+            std::cout << std::endl <<
             "_____.___.________   ____ ___   __      __.___ _______  \n" <<
             "\\__  |   |\\_____  \\ |    |   \\ /  \\    /  \\   |\\      \\  \n" <<
             " /   |   | /   |   \\|    |   / \\   \\/\\/   /   |/   |   \\ \n" <<
@@ -276,7 +276,7 @@ void play(std::vector< std::vector<cell> > board, int width, int height) {
         }
     }
     // if you get this far, you're a LOSER, oh no
-    std::cout << 
+    std::cout <<
     "_____.___.________   ____ ___  .____    ________    ____________________\n"<<
     "\\__  |   |\\_____  \\ |    |   \\ |    |   \\_____  \\  /   _____/\\_   _____/\n"<<
     " /   |   | /   |   \\|    |   / |    |    /   |   \\ \\_____  \\  |    __)_ \n"<<

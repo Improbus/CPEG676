@@ -1,0 +1,12 @@
+[cell.hpp:11]: (style, inconclusive) Technically the member function 'cell::get_is_bomb' can be const.
+[cell.hpp:14]: (style, inconclusive) Technically the member function 'cell::get_is_marked' can be const.
+[cell.hpp:17]: (style, inconclusive) Technically the member function 'cell::get_flag' can be const.
+[cell.h:14]: (style, inconclusive) Technically the member function 'cell::get_is_bomb' can be const.
+[cell.h:17]: (style, inconclusive) Technically the member function 'cell::get_is_marked' can be const.
+[cell.h:20]: (style, inconclusive) Technically the member function 'cell::get_flag' can be const.
+[minesweeper.h:216]: (error) Uninitialized variable: n
+[minesweeper.h:219]: (error) Uninitialized variable: n
+[minesweeper.h:255]: (error) Uninitialized variable: x
+[minesweeper.h:255]: (error) Uninitialized variable: y
+[minesweeper.h:94]: (style) The function 'checkadjbomb' is never used.
+(information) Cppcheck cannot find all the include files (use --check-config for details)
