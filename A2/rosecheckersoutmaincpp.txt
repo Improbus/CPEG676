@@ -1,0 +1,223 @@
+rose@rosebud:~/Downloads$ cat rosecheckersoutmaincpp.txt
+"/home/rose/Downloads/cell.h", line 34: warning: last line of file ends
+          without a newline
+  };
+    ^
+
+"/home/rose/Downloads/minesweeper.h", line 292: warning: last line of file
+          ends without a newline
+  }
+   ^
+
+"/home/rose/Downloads/main.cpp", line 7: warning: last line of file ends
+          without a newline
+  }
+   ^
+
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: OBJ00-CPP: Public data member
+compilerGenerated:0: error: OBJ32_CPP: _Vector_base is a non-explicit single-argument constructor.
+compilerGenerated:0: warning: MEM41-CPP: A class with a pointer data member should probably define a copy constructor, copy assignment, and destructor.
+compilerGenerated:0: warning: OBJ00-CPP: Public data member
+compilerGenerated:0: error: OBJ32_CPP: _Vector_impl is a non-explicit single-argument constructor.
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: OBJ00-CPP: Public data member
+compilerGenerated:0: error: OBJ32_CPP: _Vector_base is a non-explicit single-argument constructor.
+compilerGenerated:0: warning: MEM41-CPP: A class with a pointer data member should probably define a copy constructor, copy assignment, and destructor.
+compilerGenerated:0: warning: OBJ00-CPP: Public data member
+compilerGenerated:0: error: OBJ32_CPP: _Vector_impl is a non-explicit single-argument constructor.
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: DCL05-C: Use typedefs to improve code readability
+compilerGenerated:0: warning: DCL05-C: Use typedefs to improve code readability
+compilerGenerated:0: warning: DCL05-C: Use typedefs to improve code readability
+compilerGenerated:0: warning: MEM41-CPP: A class with a pointer data member should probably define a copy constructor, copy assignment, and destructor.
+compilerGenerated:0: error: OBJ32_CPP: istreambuf_iterator is a non-explicit single-argument constructor.
+compilerGenerated:0: error: OBJ32_CPP: istreambuf_iterator is a non-explicit single-argument constructor.
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: OBJ00-CPP: Public data member
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: DCL01-C: Do not reuse variable names in subscopes: id
+compilerGenerated:0: warning: DCL01-C: Do not reuse variable names in subscopes: __min
+compilerGenerated:0: warning: DCL01-C: Do not reuse variable names in subscopes: __max
+compilerGenerated:0: warning: DCL01-C: Do not reuse variable names in subscopes: __is_signed
+compilerGenerated:0: warning: DCL01-C: Do not reuse variable names in subscopes: __digits
+compilerGenerated:0: warning: MEM41-CPP: A class with a pointer data member should probably define a copy constructor, copy assignment, and destructor.
+compilerGenerated:0: warning: MEM41-CPP: A class with a pointer data member should probably define a copy constructor, copy assignment, and destructor.
+compilerGenerated:0: warning: MEM41-CPP: A class with a pointer data member should probably define a copy constructor, copy assignment, and destructor.
+compilerGenerated:0: warning: MEM41-CPP: A class with a pointer data member should probably define a copy constructor, copy assignment, and destructor.
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: MEM41-CPP: A class with a pointer data member should probably define a copy constructor, copy assignment, and destructor.
+compilerGenerated:0: error: OBJ32_CPP: ostreambuf_iterator is a non-explicit single-argument constructor.
+compilerGenerated:0: error: OBJ32_CPP: ostreambuf_iterator is a non-explicit single-argument constructor.
+compilerGenerated:0: warning: MEM41-CPP: If any of copy constructor, copy assignment, and destructor are declared, all three should be.
+compilerGenerated:0: warning: OBJ00-CPP: Public data member
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: OBJ03_CPP: Overloaded virtual function on line 0
+compilerGenerated:0: warning: DCL01-C: Do not reuse variable names in subscopes: id
