@@ -8,6 +8,7 @@
 #include <cryptopp/hex.h>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ void login(){
 };
 
 void hashSaltPass(string userPass){
+
   setvbuf(stdout, NULL, _IONBF, 0);
 
   unsigned int randval;
@@ -55,14 +57,29 @@ void hashSaltPass(string userPass){
   //cout <<"SALT INT: " << str << endl;
   //cout << "SALT STRING: " << salt << endl;
   cout << hash << endl;
+  ofstream myfile;
+  myfile.open ("creds.txt");
+  myfile << "daniel" << "," << salt << "," << hash;
+  myfile.close();
+};
 
+void validateCredentials(string salt, string password){
+  CryptoPP::SHA256 sha256;
+  string source = salt + password;  //This will be randomly generated somehow
+  string hash = "";
+  for(int i=0; i<20; i++){
+    CryptoPP::StringSource(source, true, new CryptoPP::HashFilter(sha256, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash))));
+  }
+  //cout <<"SALT INT: " << str << endl;
+  //cout << "SALT STRING: " << salt << endl;
+  cout << hash << endl;
 };
 
 void sendMessage(){
 
 };
 
-void encryptMessage(){
+void encryptMessage(string userMess){
 
 };
 
@@ -81,5 +98,23 @@ int main(){
   cout << endl;
 
   hashSaltPass(userPass);
+
+  cout << endl;
+  cout << endl;
+  cout << endl;
+  cout << endl;
+
+  string salttotest;
+  string passtotest;
+
+  cout << "ENTER A SALT" << endl;
+  cin >> salttotest;
+  cout << "ENTER A PASSWORD!!!!!!!" << endl;
+  cin >> passtotest;
+  cout << endl;
+
+  validateCredentials(salttotest, passtotest);
+
+
   return 0;
 };
