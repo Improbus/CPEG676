@@ -19,6 +19,7 @@
 #include <sstream>
 #include <fstream>
 #include <sqlite3.h>
+#include <vector>
 
 using namespace std;
 
@@ -329,11 +330,187 @@ int main(){
     }
     else{
       cout << "Welcome " + userName + "!" << endl;
+      cout << "Please Make a Selection below." << endl;
+      cout << "1. Send Message." << endl;
+      cout << "2. Check Messages." << endl;
+
+      int userSelect;
+
+      cout << endl;
+      cin >> userSelect;
+      cout << endl;
+      while (cin.fail()){
+             cout << "Please enter an integer for the Menu Selection";
+             // clear error state
+             cin.clear();
+             // discard 'bad' character(s)
+             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+             cout << endl;
+             cout << "----------------------------------------------------------------------------------------------------------" << endl;
+           }
+
+      if(userSelect==1){
+        string receiver;
+        string message;
+        string uniquePassword;
+        cout << "Please Enter the recipients user name: " << endl;
+        cin >> receiver;
+        cout << endl;
+        cout << "Please Enter the message: " << endl;
+        cin.clear();
+        cin.ignore(1000, '\n');
+        getline(cin, message);
+        cout << endl;
+        cout << "Please Enter the password you have shared together. NOTE: THIS WILL NOT BE SAVED YOU AND YOUR RECEIVER MUST KNOW THIS!!!!! " << endl;
+        cin >> uniquePassword;
+        cout << endl;
+
+        sqlite3* db;
+        char *zErrMsg = 0;
+        int rc;
+
+         rc = sqlite3_open("geemail.db", &db);
+
+         if( rc ){
+             fprintf(stderr, "Can't open database: %s", sqlite3_errmsg(db));
+             sqlite3_close(db);
+             return 0;
+         };
+         string sqlInsert = "insert into Messages ('FromUser','ToUser','MessageCipherText') values ('" +userName+ "','"+receiver+"','"+encryptMessage(uniquePassword, message)+"');";
+         const char * sql = sqlInsert.c_str();
+         rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+         if( rc != SQLITE_OK ){
+         fprintf(stderr, "SQL error: %s", zErrMsg);
+           sqlite3_free(zErrMsg);
+         }else{
+           fprintf(stdout, "Message Sent");
+           cout << endl;
+         }
+         sqlite3_close(db);
+
+         return 0;
+
+      }
+      else if(userSelect==2){
+        cout << "Retreiving Your Messages." << endl;
+        vector<string> messages;
+        vector<string> senders;
+        string mess;
+        string sentfrom;
+
+        sqlite3* db;
+        char *zErrMsg = 0;
+        int rc;
+
+         rc = sqlite3_open("geemail.db", &db);
+
+         if( rc ){
+             fprintf(stderr, "Can't open database: %s", sqlite3_errmsg(db));
+             sqlite3_close(db);
+             return 0;
+         };
+
+        sqlite3_stmt *statement;
+
+        string sqlSelect = "select MessageCipherText from Messages where ToUser='"+userName+"';";
+        const char * query = sqlSelect.c_str();
+
+        if ( sqlite3_prepare(db, query, -1, &statement, 0 ) == SQLITE_OK )
+        {
+            int ctotal = sqlite3_column_count(statement);
+            int res = 0;
+            cout << "You have " + ctotal + " messages." << endl;
+            while ( 1 )
+            {
+                res = sqlite3_step(statement);
+
+                if ( res == SQLITE_ROW )
+                {
+                    for ( int i = 0; i < ctotal; i++ )
+                    {
+                        mess = (char*)sqlite3_column_text(statement, i);
+                        messages.push_back(pass);
+                        // print or format the output as you want
+                    }
+                    cout << endl;
+                }
+
+                if ( res == SQLITE_DONE || res==SQLITE_ERROR)
+                {
+                    //cout << "done " << endl;
+                    break;
+                }
+            }
+        }
+
+        sqlite3_stmt *statement2;
+
+        string sqlSelect2 = "select FromUser from Messages where ToUser='"+userName+"';";
+        const char * query2 = sqlSelect2.c_str();
+
+        if ( sqlite3_prepare(db, query2, -1, &statement2, 0 ) == SQLITE_OK )
+        {
+            int ctotal = sqlite3_column_count(statement2);
+            int res = 0;
+            while ( 1 )
+            {
+                res = sqlite3_step(statement);
+
+                if ( res == SQLITE_ROW )
+                {
+                    for ( int i = 0; i < ctotal; i++ )
+                    {
+                        sentfrom = (char*)sqlite3_column_text(statement, i);
+                        senders.push_back(pass);
+                        // print or format the output as you want
+                    }
+                    cout << endl;
+                }
+
+                if ( res == SQLITE_DONE || res==SQLITE_ERROR)
+                {
+                    //cout << "done " << endl;
+                    break;
+                }
+            }
+        }
+
+        for (int i = senders.begin(); i != senders.end(); i++){
+          cout << "You have a Message from " + senders[i] << endl;
+          cout << "Do you want to Decrypt it?" << endl;
+          int choice;
+          cout << "1. Decrypt Message" << endl;
+          cout << "2. Skip Message" << endl;
+          cin >> choice;
+          cout << endl;
+
+          if(choice == 1){
+              
+          }
+          else if(choice == 2){
+            break;
+          }
+          else{
+            cout << "Invalid Selection.  Program exiting!" << endl;
+            return 0;
+          }
+        }
+          std::cout << *i << ' ';
+
+
+        return 0;
+      }
+      else{
+        cout << "Invalid Selection.  Program exiting!" << endl;
+        return 0;
+      }
+
       return 0;
     }
 
   }
   else if(mainMenuSelection==3){
+    cout << "Program exiting!" << endl;
     return 0;
   }
   else{
