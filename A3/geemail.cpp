@@ -18,15 +18,17 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <sqlite3.h>
 
 using namespace std;
 
+static int callback(void *NotUsed, int argc, char **argv, char **azColName){
+    int i;
+    for(i=0; i<argc; i++){
+        printf("%s = %s", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
 
-void makeUser(){
-  string userName;
-  string password;
-
-  return;
+    return 0;
 };
 
 void login(){
@@ -36,7 +38,7 @@ void login(){
   return;
 };
 
-void hashSaltPass(string userPass){
+void hashSaltPass(string userName, string userPass){
 
   setvbuf(stdout, NULL, _IONBF, 0);
 
@@ -66,10 +68,27 @@ void hashSaltPass(string userPass){
   //cout <<"SALT INT: " << str << endl;
   //cout << "SALT STRING: " << salt << endl;
   cout << hash << endl;
-  ofstream myfile;
-  myfile.open ("creds.txt");
-  myfile << "daniel" << "," << salt << "," << hash;
-  myfile.close();
+  sqlite3* db;
+  char *zErrMsg = 0;
+  int rc;
+
+   rc = sqlite3_open("geemail.db", &db);
+
+   if( rc ){
+       fprintf(stderr, "Can't open database: %s", sqlite3_errmsg(db));
+       sqlite3_close(db);
+       return;
+   };
+   string sqlInsert = "insert into Users ('UserName','Password','Salt') values ('" +userName+ "','"+hash+"','"+salt+"');";
+   const char * sql = sqlInsert.c_str();
+   rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+   if( rc != SQLITE_OK ){
+   fprintf(stderr, "SQL error: %s", zErrMsg);
+     sqlite3_free(zErrMsg);
+   }else{
+     fprintf(stdout, "User Added Please Restart Progam");
+   }
+   sqlite3_close(db);
 };
 
 void validateCredentials(string salt, string password){
@@ -84,126 +103,87 @@ void validateCredentials(string salt, string password){
   cout << hash << endl;
 };
 
-void sendMessage(){
+string encryptMessage(string password, string plaintext){
 
-};
-
-string encryptMessage(){
-  // KDF parameters
-      string password = "Super secret password";
       unsigned int iterations = 15000;
       char purpose = 0; // unused by Crypto++
 
-      // 32 bytes of derived material. Used to key the cipher.
-      //   16 bytes are for the key, and 16 bytes are for the iv.
       CryptoPP::SecByteBlock derived(32);
 
-      // KDF function
       CryptoPP::PKCS5_PBKDF2_HMAC<CryptoPP::SHA256> kdf;
       kdf.DeriveKey(derived.data(), derived.size(), purpose, (byte*)password.data(), password.size(), NULL, 0, iterations);
 
-      // Encrypt a secret message
-      string plaintext = "Attack at dawn", ciphertext, recovered;
+      string ciphertext;
 
-      // Key the cipher
       CryptoPP::EAX<CryptoPP::AES>::Encryption encryptor;
       encryptor.SetKeyWithIV(derived.data(), 16, derived.data() + 16, 16);
 
-      CryptoPP::StringSource(plaintext, true, new CryptoPP::AuthenticatedEncryptionFilter(encryptor, new CryptoPP::HexEncoder(new CryptoPP::StringSink(ciphertext))));
-
-    //  CryptoPP::AuthenticatedEncryptionFilter ef(encryptor, new CryptoPP::StringSink(ciphertext));
-    //      ef.Put((byte*)plaintext.data(), plaintext.size());
-  //        ef.MessageEnd();
-
-    //   Key the cipher
-  //    CryptoPP::EAX<CryptoPP::AES>::Decryption decryptor;
-  //      decryptor.SetKeyWithIV(derived.data(), 16, derived.data() + 16, 16);
-
-  ////      CryptoPP::AuthenticatedDecryptionFilter df(decryptor, new CryptoPP::StringSink(recovered));
-  //      df.Put((byte*)ciphertext.data(), ciphertext.size());
-  //        df.MessageEnd();
-
-      // Done with encryption and decryption
+      CryptoPP::AuthenticatedEncryptionFilter ef(encryptor, new CryptoPP::StringSink(ciphertext));
+      ef.Put((byte*)plaintext.data(), plaintext.size());
+      ef.MessageEnd();
 
       // Encode various parameters
-      //CryptoPP::HexEncoder encoder;
-      //string key, iv, cipher;
+      CryptoPP::HexEncoder encoder;
+      string key, iv, cipher;
 
-    //  encoder.Detach(new CryptoPP::StringSink(key));
-    //  encoder.Put(derived.data(), 16);
-    //  encoder.MessageEnd();
+      encoder.Detach(new CryptoPP::StringSink(key));
+      encoder.Put(derived.data(), 16);
+      encoder.MessageEnd();
 
-      //encoder.Detach(new CryptoPP::StringSink(iv));
-      //encoder.Put(derived.data() + 16, 16);
-      //encoder.MessageEnd();
+      encoder.Detach(new CryptoPP::StringSink(iv));
+      encoder.Put(derived.data() + 16, 16);
+      encoder.MessageEnd();
 
-      //encoder.Detach(new CryptoPP::StringSink(cipher));
-      //encoder.Put((byte*)ciphertext.data(), ciphertext.size());
-      //encoder.MessageEnd();
+      encoder.Detach(new CryptoPP::StringSink(cipher));
+      encoder.Put((byte*)ciphertext.data(), ciphertext.size());
+      encoder.MessageEnd();
 
-      // Print stuff
       //cout << "plaintext: " << plaintext << endl;
       //cout << "key: " << key << endl;
-    //  cout << "iv: " << iv << endl;
-  //    cout << "ciphertext: " << cipher << endl;
-//      cout << "recovered: " << recovered << endl;
+      //cout << "iv: " << iv << endl;
+      //cout << "ciphertext: " << cipher << endl;
 
-
+      return cipher;
 };
 
-void decryptMessage(string ciphertext){
-  // KDF parameters
-      string password = "Super secret password";
+string decryptMessage(string password, string ciphertext){
+
       unsigned int iterations = 15000;
       char purpose = 0; // unused by Crypto++
 
-      // 32 bytes of derived material. Used to key the cipher.
-      //   16 bytes are for the key, and 16 bytes are for the iv.
       CryptoPP::SecByteBlock derived(32);
 
-      // KDF function
       CryptoPP::PKCS5_PBKDF2_HMAC<CryptoPP::SHA256> kdf;
       kdf.DeriveKey(derived.data(), derived.size(), purpose, (byte*)password.data(), password.size(), NULL, 0, iterations);
 
-      // Encrypt a secret message
       string recovered;
-      //cout << "enter ciphertext for checking " << endl;
-      //cin >> ciphertext;
-      //cout << endl;
 
-      // Key the cipher
+      cout << "Cipher text: " << ciphertext << endl;
+
+      string cipher_raw;
+
+      CryptoPP::HexDecoder decoder;
+      decoder.Put((byte*)ciphertext.data(), ciphertext.size());
+      decoder.MessageEnd();
+
+      long long size = decoder.MaxRetrievable();
+      cipher_raw.resize(size);
+      decoder.Get((byte*)cipher_raw.data(), cipher_raw.size());
+
+      string decrypted_text;
+
       CryptoPP::EAX<CryptoPP::AES>::Decryption decryptor;
       decryptor.SetKeyWithIV(derived.data(), 16, derived.data() + 16, 16);
 
+      CryptoPP::StringSource ss(cipher_raw, true, new CryptoPP::AuthenticatedDecryptionFilter(decryptor, new CryptoPP::StringSink(decrypted_text)));
 
-      CryptoPP::StringSource( ciphertext, true, new CryptoPP::AuthenticatedDecryptionFilter(decryptor, new CryptoPP::HexEncoder(new CryptoPP::StringSink(recovered))));
+      //cout << "Decrypted text: " << decrypted_text << endl;
 
-    //  CryptoPP::AuthenticatedDecryptionFilter df(decryptor, new CryptoPP::StringSink(recovered));
-  //    df.Put((byte*)ciphertext.data(), ciphertext.size());
-  //    df.MessageEnd();
+      return decrypted_text;
 
-      // Encode various parameters
-//      CryptoPP::HexEncoder encoder;
-//      string key, iv, cipher;
+};
 
-//      encoder.Detach(new CryptoPP::StringSink(key));
-//      encoder.Put(derived.data(), 16);
-//      encoder.MessageEnd();
-
-//      encoder.Detach(new CryptoPP::StringSink(iv));
-//      encoder.Put(derived.data() + 16, 16);
-//      encoder.MessageEnd();
-
-      //encoder.Detach(new CryptoPP::StringSink(cipher));
-    //  encoder.Put((byte*)ciphertext.data(), ciphertext.size());
-  //    encoder.MessageEnd();
-
-      // Print stuff
-    //  cout << "plaintext: " << plaintext << endl;
-    //  cout << "key: " << key << endl;
-    //  cout << "iv: " << iv << endl;
-    //  cout << "ciphertext: " << cipher << endl;
-  //    cout << "recovered: " << recovered << endl;
+void sendMessage(){
 
 };
 
@@ -213,30 +193,14 @@ void receiveMessages(){
 
 int main(){
 
-  decryptMessage(encryptMessage());
+  cout << "WELCOME TO THE CPEG676 SECURE SOFTWARE DEVELOPMENT GEE MAIL SERVER PLEASE CHOOSE FROM THE LIST OF OPTIONS!" << endl;
+  cout << "YES CAPS IS CRUISE CONTROL FOR COOL :D" << endl;
+  cout << "----------------------------------------------------------------------------------------------------------" << endl;
+  cout << "Press 1 to Register as a new user." << endl;
+  cout << "Press 2 to Login as an existing user." << endl;
+  cout << "Press 3 to exit" << endl;
 
-  string userPass;
-  cout << "ENTER A PASSWORD!!!!!!!" << endl;
-  cin >> userPass;
-  cout << endl;
-
-  hashSaltPass(userPass);
-
-  cout << endl;
-  cout << endl;
-  cout << endl;
-  cout << endl;
-
-  string salttotest;
-  string passtotest;
-
-  cout << "ENTER A SALT" << endl;
-  cin >> salttotest;
-  cout << "ENTER A PASSWORD!!!!!!!" << endl;
-  cin >> passtotest;
-  cout << endl;
-
-  validateCredentials(salttotest, passtotest);
+  
 
 
   return 0;
