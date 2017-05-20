@@ -67,7 +67,7 @@ void hashSaltPass(string userName, string userPass){
   }
   //cout <<"SALT INT: " << str << endl;
   //cout << "SALT STRING: " << salt << endl;
-  cout << hash << endl;
+  //cout << hash << endl;
   sqlite3* db;
   char *zErrMsg = 0;
   int rc;
@@ -91,7 +91,7 @@ void hashSaltPass(string userName, string userPass){
    sqlite3_close(db);
 };
 
-void validateCredentials(string salt, string password){
+string validateCredentials(string salt, string password){
   CryptoPP::SHA256 sha256;
   string source = salt + password;  //This will be randomly generated somehow
   string hash = "";
@@ -100,7 +100,7 @@ void validateCredentials(string salt, string password){
   }
   //cout <<"SALT INT: " << str << endl;
   //cout << "SALT STRING: " << salt << endl;
-  cout << hash << endl;
+  return hash;
 };
 
 string encryptMessage(string password, string plaintext){
@@ -200,7 +200,145 @@ int main(){
   cout << "Press 2 to Login as an existing user." << endl;
   cout << "Press 3 to exit" << endl;
 
-  
+  int mainMenuSelection =0;
+
+  cin >> mainMenuSelection;
+  cout << endl;
+  while (cin.fail()){
+         cout << "Please enter an integer for the Menu Selection";
+         // clear error state
+         cin.clear();
+         // discard 'bad' character(s)
+         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+         cout << endl;
+         cout << "----------------------------------------------------------------------------------------------------------" << endl;
+       }
+
+  if(mainMenuSelection==1){
+    //NEWUSER
+    string userName;
+    string passWord;
+    cout << "Please enter desired Username: ";
+    cout << endl;
+    cin >> userName;
+    cout << endl;
+    cout << "Please enter desired Password: ";
+    cout << endl;
+    cin >> passWord;
+    cout << endl;
+    hashSaltPass(userName, passWord);
+    main();
+
+  }
+  else if(mainMenuSelection==2){
+    //LOGIN
+    string salt;
+    string pass;
+    string userName;
+    string passWord;
+    cout << "Please enter Username: ";
+    cout << endl;
+    cin >> userName;
+    cout << endl;
+    cout << "Please enter Password: ";
+    cout << endl;
+    cin >> passWord;
+    cout << endl;
+
+    sqlite3* db;
+    char *zErrMsg = 0;
+    int rc;
+
+     rc = sqlite3_open("geemail.db", &db);
+
+     if( rc ){
+         fprintf(stderr, "Can't open database: %s", sqlite3_errmsg(db));
+         sqlite3_close(db);
+         return 0;
+     };
+
+    sqlite3_stmt *statement;
+
+    string sqlSelect = "select password from users where username='"+userName+"';";
+    const char * query = sqlSelect.c_str();
+
+    if ( sqlite3_prepare(db, query, -1, &statement, 0 ) == SQLITE_OK )
+    {
+        int ctotal = sqlite3_column_count(statement);
+        int res = 0;
+
+        while ( 1 )
+        {
+            res = sqlite3_step(statement);
+
+            if ( res == SQLITE_ROW )
+            {
+                for ( int i = 0; i < ctotal; i++ )
+                {
+                    pass = (char*)sqlite3_column_text(statement, i);
+                    // print or format the output as you want
+                }
+                cout << endl;
+            }
+
+            if ( res == SQLITE_DONE || res==SQLITE_ERROR)
+            {
+                //cout << "done " << endl;
+                break;
+            }
+        }
+    }
+
+    sqlite3_stmt *statement2;
+
+    string sqlSelect2 = "select salt from users where username='"+userName+"';";
+    const char * query2 = sqlSelect2.c_str();
+
+    if ( sqlite3_prepare(db, query2, -1, &statement2, 0 ) == SQLITE_OK )
+    {
+        int ctotal = sqlite3_column_count(statement2);
+        int res = 0;
+
+        while ( 1 )
+        {
+            res = sqlite3_step(statement2);
+
+            if ( res == SQLITE_ROW )
+            {
+                for ( int i = 0; i < ctotal; i++ )
+                {
+                    salt = (char*)sqlite3_column_text(statement2, i);
+                    // print or format the output as you want
+                }
+                cout << endl;
+            }
+
+            if ( res == SQLITE_DONE || res==SQLITE_ERROR)
+            {
+                //cout << "done " << endl;
+                break;
+            }
+        }
+    }
+
+    sqlite3_close(db);
+
+    if(validateCredentials(salt, passWord).compare(pass) != 0){
+      cout << "Invalid Password for this Username.  Program exiting!" << endl;
+      return 0;
+    }
+    else{
+      cout << "Welcome " + userName + "!" << endl;
+      return 0;
+    }
+
+  }
+  else if(mainMenuSelection==3){
+    return 0;
+  }
+  else{
+    main();
+  }
 
 
   return 0;
