@@ -159,7 +159,7 @@ string decryptMessage(string password, string ciphertext){
 
       string recovered;
 
-      cout << "Cipher text: " << ciphertext << endl;
+    //  cout << "Cipher text: " << ciphertext << endl;
 
       string cipher_raw;
 
@@ -362,7 +362,11 @@ int main(){
         getline(cin, message);
         cout << endl;
         cout << "Please Enter the password you have shared together. NOTE: THIS WILL NOT BE SAVED YOU AND YOUR RECEIVER MUST KNOW THIS!!!!! " << endl;
-        cin >> uniquePassword;
+      //  cin.clear();
+      //  cin.ignore(1000, '\n');
+      //  getline(cin, uniquePassword);
+      cin >> uniquePassword;
+        //cout << uniquePassword << endl;
         cout << endl;
 
         sqlite3* db;
@@ -419,7 +423,7 @@ int main(){
         {
             int ctotal = sqlite3_column_count(statement);
             int res = 0;
-            cout << "You have " + ctotal + " messages." << endl;
+
             while ( 1 )
             {
                 res = sqlite3_step(statement);
@@ -429,7 +433,7 @@ int main(){
                     for ( int i = 0; i < ctotal; i++ )
                     {
                         mess = (char*)sqlite3_column_text(statement, i);
-                        messages.push_back(pass);
+                        messages.push_back(mess);
                         // print or format the output as you want
                     }
                     cout << endl;
@@ -454,14 +458,14 @@ int main(){
             int res = 0;
             while ( 1 )
             {
-                res = sqlite3_step(statement);
+                res = sqlite3_step(statement2);
 
                 if ( res == SQLITE_ROW )
                 {
                     for ( int i = 0; i < ctotal; i++ )
                     {
-                        sentfrom = (char*)sqlite3_column_text(statement, i);
-                        senders.push_back(pass);
+                        sentfrom = (char*)sqlite3_column_text(statement2, i);
+                        senders.push_back(sentfrom);
                         // print or format the output as you want
                     }
                     cout << endl;
@@ -475,27 +479,38 @@ int main(){
             }
         }
 
-        for (int i = senders.begin(); i != senders.end(); i++){
+        for (int i = 0; i < senders.size(); i++){
           cout << "You have a Message from " + senders[i] << endl;
           cout << "Do you want to Decrypt it?" << endl;
           int choice;
           cout << "1. Decrypt Message" << endl;
           cout << "2. Skip Message" << endl;
+          cin.clear();
+          cin.ignore(1000, '\n');
           cin >> choice;
           cout << endl;
 
           if(choice == 1){
-              
+              string decryptPass;
+              cout << "Enter the shared Decryption Password you have with: " + senders[i] << endl;
+              //cin.clear();
+            //  cin.ignore(1000, '\n');
+            //  getline(cin, decryptPass);
+            cin >> decryptPass;
+              cout << endl;
+              string descryptedmessage = decryptMessage(decryptPass, messages[i]);
+
+              cout << "Your Decrypted Message from " +senders[i]+ " is:" << endl;
+              cout << descryptedmessage << endl;
           }
           else if(choice == 2){
-            break;
+            cout << "Moving on to next message in the queue" << endl;
           }
           else{
             cout << "Invalid Selection.  Program exiting!" << endl;
             return 0;
           }
         }
-          std::cout << *i << ' ';
 
 
         return 0;
