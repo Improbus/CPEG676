@@ -32,13 +32,6 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
     return 0;
 };
 
-void login(){
-  string userName;
-  string password;
-
-  return;
-};
-
 void hashSaltPass(string userName, string userPass){
 
   setvbuf(stdout, NULL, _IONBF, 0);
@@ -159,7 +152,7 @@ string decryptMessage(string password, string ciphertext){
 
       string recovered;
 
-    //  cout << "Cipher text: " << ciphertext << endl;
+      //cout << "Cipher text: " << ciphertext << endl;
 
       string cipher_raw;
 
@@ -181,14 +174,6 @@ string decryptMessage(string password, string ciphertext){
       //cout << "Decrypted text: " << decrypted_text << endl;
 
       return decrypted_text;
-
-};
-
-void sendMessage(){
-
-};
-
-void receiveMessages(){
 
 };
 
@@ -325,8 +310,10 @@ int main(){
     sqlite3_close(db);
 
     if(validateCredentials(salt, passWord).compare(pass) != 0){
-      cout << "Invalid Password for this Username.  Program exiting!" << endl;
-      return 0;
+      cout << "Invalid Password for this Username.  Program Returning to Main Menu!" << endl;
+      cout << endl;
+      cout << "----------------------------------------------------------------------------------------------------------" << endl;
+      main();
     }
     else{
       cout << "Welcome " + userName + "!" << endl;
@@ -353,6 +340,7 @@ int main(){
         string receiver;
         string message;
         string uniquePassword;
+
         cout << "Please Enter the recipients user name: " << endl;
         cin >> receiver;
         cout << endl;
@@ -362,34 +350,36 @@ int main(){
         getline(cin, message);
         cout << endl;
         cout << "Please Enter the password you have shared together. NOTE: THIS WILL NOT BE SAVED YOU AND YOUR RECEIVER MUST KNOW THIS!!!!! " << endl;
-      //  cin.clear();
-      //  cin.ignore(1000, '\n');
-      //  getline(cin, uniquePassword);
-      cin >> uniquePassword;
-        //cout << uniquePassword << endl;
+        cin >> uniquePassword;
         cout << endl;
 
         sqlite3* db;
         char *zErrMsg = 0;
         int rc;
 
-         rc = sqlite3_open("geemail.db", &db);
+        rc = sqlite3_open("geemail.db", &db);
 
-         if( rc ){
-             fprintf(stderr, "Can't open database: %s", sqlite3_errmsg(db));
-             sqlite3_close(db);
-             return 0;
+        if( rc ){
+          fprintf(stderr, "Can't open database: %s", sqlite3_errmsg(db));
+          sqlite3_close(db);
+          return 0;
          };
+
          string sqlInsert = "insert into Messages ('FromUser','ToUser','MessageCipherText') values ('" +userName+ "','"+receiver+"','"+encryptMessage(uniquePassword, message)+"');";
+
          const char * sql = sqlInsert.c_str();
+
          rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+
          if( rc != SQLITE_OK ){
          fprintf(stderr, "SQL error: %s", zErrMsg);
            sqlite3_free(zErrMsg);
-         }else{
+         }
+         else{
            fprintf(stdout, "Message Sent");
            cout << endl;
          }
+
          sqlite3_close(db);
 
          return 0;
