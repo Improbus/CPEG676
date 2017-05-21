@@ -20,6 +20,7 @@
 #include <fstream>
 #include <sqlite3.h>
 #include <vector>
+#include <termios.h>
 
 using namespace std;
 
@@ -30,6 +31,28 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
     }
 
     return 0;
+};
+
+void HideStdinKeystrokes(){
+    termios tty;
+
+    tcgetattr(STDIN_FILENO, &tty);
+
+    /* we want to disable echo */
+    tty.c_lflag &= ~ECHO;
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+};
+
+void ShowStdinKeystrokes(){
+   termios tty;
+
+    tcgetattr(STDIN_FILENO, &tty);
+
+    /* we want to reenable echo */
+    tty.c_lflag |= ECHO;
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &tty);
 };
 
 void hashSaltPass(string userName, string userPass){
@@ -46,13 +69,17 @@ void hashSaltPass(string userName, string userPass){
   //std::cout << "RANDVAL TO SALT: " << randval << '\n';
 
   fflush(stdout);
-  usleep(1);
+  struct timespec tim, tim2;
+  tim.tv_sec = 1;
+  tim.tv_nsec = 500000000L;
+  nanosleep(&tim , &tim2);
 
   stringstream ss;
   ss << randval;
   string str = ss.str();
 
   std::string salt = str;
+
   CryptoPP::SHA256 sha256;
   string source = salt + userPass;  //This will be randomly generated somehow
   string hash = "";
@@ -81,20 +108,31 @@ void hashSaltPass(string userName, string userPass){
      sqlite3_free(zErrMsg);
    }else{
      fprintf(stdout, "User Added Please Restart Progam");
+     cout << endl;
+     cout << "----------------------------------------------------------------------------------------------------------" << endl;
    }
    sqlite3_close(db);
 };
 
 string validateCredentials(string salt, string password){
+  try{
   CryptoPP::SHA256 sha256;
   string source = salt + password;  //This will be randomly generated somehow
   string hash = "";
   for(int i=0; i<20; i++){
     CryptoPP::StringSource(source, true, new CryptoPP::HashFilter(sha256, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash))));
+
+  }
+    return hash;
+  }
+  catch(const CryptoPP::Exception& e){
+    //cerr << e.what() << endl;
+    cout << "Incorrect Password Program Exiting" << endl;
+    exit(1);
   }
   //cout <<"SALT INT: " << str << endl;
   //cout << "SALT STRING: " << salt << endl;
-  return hash;
+
 };
 
 string encryptMessage(string password, string plaintext){
@@ -144,7 +182,7 @@ string decryptMessage(string password, string ciphertext){
 
       unsigned int iterations = 15000;
       char purpose = 0; // unused by Crypto++
-
+    try{
       CryptoPP::SecByteBlock derived(32);
 
       CryptoPP::PKCS5_PBKDF2_HMAC<CryptoPP::SHA256> kdf;
@@ -170,10 +208,16 @@ string decryptMessage(string password, string ciphertext){
       decryptor.SetKeyWithIV(derived.data(), 16, derived.data() + 16, 16);
 
       CryptoPP::StringSource ss(cipher_raw, true, new CryptoPP::AuthenticatedDecryptionFilter(decryptor, new CryptoPP::StringSink(decrypted_text)));
-
+      return decrypted_text;
+    }
+    catch(const CryptoPP::Exception& e){
+      //cerr << e.what() << endl;
+      cout << "Incorrect Password to Decrypt Message Program Exiting" << endl;
+      exit(1);
+    }
       //cout << "Decrypted text: " << decrypted_text << endl;
 
-      return decrypted_text;
+
 
 };
 
@@ -208,9 +252,11 @@ int main(){
     cout << endl;
     cin >> userName;
     cout << endl;
+    HideStdinKeystrokes();
     cout << "Please enter desired Password: ";
     cout << endl;
     cin >> passWord;
+    ShowStdinKeystrokes();
     cout << endl;
     hashSaltPass(userName, passWord);
     main();
@@ -226,9 +272,11 @@ int main(){
     cout << endl;
     cin >> userName;
     cout << endl;
+    HideStdinKeystrokes();
     cout << "Please enter Password: ";
     cout << endl;
     cin >> passWord;
+    ShowStdinKeystrokes();
     cout << endl;
 
     sqlite3* db;
@@ -320,6 +368,7 @@ int main(){
       cout << "Please Make a Selection below." << endl;
       cout << "1. Send Message." << endl;
       cout << "2. Check Messages." << endl;
+      cout << "3. Logout" << endl;
 
       int userSelect;
 
@@ -350,7 +399,9 @@ int main(){
         getline(cin, message);
         cout << endl;
         cout << "Please Enter the password you have shared together. NOTE: THIS WILL NOT BE SAVED YOU AND YOUR RECEIVER MUST KNOW THIS!!!!! " << endl;
+        HideStdinKeystrokes();
         cin >> uniquePassword;
+        ShowStdinKeystrokes();
         cout << endl;
 
         sqlite3* db;
@@ -468,7 +519,10 @@ int main(){
                 }
             }
         }
-
+        if(senders.size() == 0){
+          cout << "You Have No Messages.  Returning to Main menu." << endl;
+          main();
+        }
         for (int i = 0; i < senders.size(); i++){
           cout << "You have a Message from " + senders[i] << endl;
           cout << "Do you want to Decrypt it?" << endl;
@@ -483,10 +537,9 @@ int main(){
           if(choice == 1){
               string decryptPass;
               cout << "Enter the shared Decryption Password you have with: " + senders[i] << endl;
-              //cin.clear();
-            //  cin.ignore(1000, '\n');
-            //  getline(cin, decryptPass);
-            cin >> decryptPass;
+              HideStdinKeystrokes();
+              cin >> decryptPass;
+              ShowStdinKeystrokes();
               cout << endl;
               string descryptedmessage = decryptMessage(decryptPass, messages[i]);
 
@@ -497,17 +550,18 @@ int main(){
             cout << "Moving on to next message in the queue" << endl;
           }
           else{
-            cout << "Invalid Selection.  Program exiting!" << endl;
-            return 0;
+            cout << "Invalid Selection.  Returning to main menu." << endl;
+            main();
           }
         }
-
-
         return 0;
       }
+      else if(userSelect==3){
+        main();
+      }
       else{
-        cout << "Invalid Selection.  Program exiting!" << endl;
-        return 0;
+        cout << "Invalid Selection.  Returning to main menu." << endl;
+        main();
       }
 
       return 0;
@@ -521,7 +575,6 @@ int main(){
   else{
     main();
   }
-
-
+  
   return 0;
 };
