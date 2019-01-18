@@ -38,7 +38,7 @@ void HideStdinKeystrokes(){
 
     tcgetattr(STDIN_FILENO, &tty);
 
-    /* we want to disable echo */
+    /* we want to disable echo test commit*/
     tty.c_lflag &= ~ECHO;
 
     tcsetattr(STDIN_FILENO, TCSANOW, &tty);
